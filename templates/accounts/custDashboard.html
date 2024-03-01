@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+<h4>{{user.username}}</h4>
+<p>This is a {{user.get_role}}</p>
 {% include 'includes/alert.html' %}
 
 <h3>Welcome</h3>
