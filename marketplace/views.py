@@ -4,7 +4,7 @@ from vendor.models import Vendor
 
 from menu.models import Category,FoodItem
 from django.db.models import Prefetch
-
+from django.db.models import Q
 from .context_processors import get_cart_counter,get_cart_amounts
 from .models import Cart
 from django.contrib.auth.decorators import login_required
@@ -108,4 +108,17 @@ def delete_cart(request,cart_id):
             return JsonResponse({'status': 'Failed', 'message': 'Invalid request'})
 
 def search(request):
-    return HttpResponse('seatc')
+    address=request.GET['address']
+    latitude=request.GET['lat']
+    longitude=request.GET['lng']
+    radius=request.GET['radius']
+    keyword=request.GET['keyword']
+    #GET vendor id
+    fetch_vendors_by_fooditem=FoodItem.objects.filter(food_title__icontains=keyword,is_available=True).values_list('vendor',flat=True)
+    vendors=Vendor.objects.filter(Q(id__in=fetch_vendors_by_fooditem)|Q(vendor_name__icontains=keyword,is_approved=True,user__is_active=True))
+    vendor_count=vendors.count()
+    context={
+        'vendors':vendors,
+        'vendor_count':vendor_count
+    }
+    return render(request,'marketplace/listing.html',context)
