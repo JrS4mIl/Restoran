@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from decouple import config
 from django.contrib import messages
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'accounts',
     'vendor',
     'menu',
-    'marketplace'
+    'marketplace',
+    'django.contrib.gis'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +85,8 @@ WSGI_APPLICATION = 'foodOnline_main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        #'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
@@ -150,3 +153,10 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <djangoonlinefood09@gmail.com>'
 
 GOOGLE_API_KEY = 'AIzaSyBbE_j9uIMbDasR-JtmXdlV7Lc-VaBchMQ'
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR_PARENT = os.path.dirname(BASE_DIR)
+
+os.environ['PATH'] = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo') + ';' + os.environ['PATH']
+os.environ['PROJ_LIB'] = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo', 'data', 'proj') + ';' + os.environ['PROJ_LIB']
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo', 'gdal304.dll')
