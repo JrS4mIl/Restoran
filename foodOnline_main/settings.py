@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'foodOnline_main.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql',
+        # 'ENGINE': 'django.db.backends.postgresql',
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
@@ -154,9 +154,9 @@ DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <djangoonlinefood09@gmail.com>'
 
 GOOGLE_API_KEY = 'AIzaSyBbE_j9uIMbDasR-JtmXdlV7Lc-VaBchMQ'
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR_PARENT = os.path.dirname(BASE_DIR)
+# os.environ['PATH'] = os.path.join(BASE_DIR, 'env\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
+# os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'env\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
+# GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'env\Lib\site-packages\osgeo\gdal304.dll')
 
-os.environ['PATH'] = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo') + ';' + os.environ['PATH']
-os.environ['PROJ_LIB'] = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo', 'data', 'proj') + ';' + os.environ['PROJ_LIB']
-GDAL_LIBRARY_PATH = os.path.join(BASE_DIR_PARENT, 'venv', 'Lib', 'site-packages', 'osgeo', 'gdal304.dll')
+GDAL_LIBRARY_PATH = r"C:\Users\samil\OneDrive\Masaüstü\Coding\DJANGO\FoodOnline\foodOnline_main\env\Lib\site-packages\osgeo\gdal304.dll"
+GEOS_LIBRARY_PATH = r"C:\Users\samil\OneDrive\Masaüstü\Coding\DJANGO\FoodOnline\foodOnline_main\env\Lib\site-packages\osgeo\geos_c.dll"
