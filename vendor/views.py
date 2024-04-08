@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import VendorForm
+from .forms import VendorForm,OpeningHourForm
 from accounts.forms import UserProfileForm
 from accounts.models import UserProfile
 from django.contrib import messages
-from .models import Vendor
+from .models import Vendor,OpeningHour
 from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 from accounts.views import check_role_vendor
@@ -187,3 +187,12 @@ def delete_food(request,pk=None):
     food.delete()
     messages.success(request,'Food Item has been deleted successfully')
     return redirect('fooditems_by_category', food.category.id)
+
+def opening_hours(request):
+    opening_hours=OpeningHour.objects.filter(vendor=get_vendor(request))
+    form=OpeningHourForm()
+    context={
+        'form':form,
+        'opening_hours':opening_hours,
+    }
+    return render(request,'vendor/opening_hours.html',context)
