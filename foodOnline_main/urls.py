@@ -27,7 +27,8 @@ urlpatterns = [
     path('marketplace/',include('marketplace.urls')),
     path('cart/', MarketplaceView.cart, name='cart'),
     path('search/', MarketplaceView.search, name='search'),
-    path('checkout/',MarketplaceView.checkout,name='checkout')
+    path('checkout/',MarketplaceView.checkout,name='checkout'),
+    path('orders/',include('orders.urls')),
 
 ]
 if settings.DEBUG:
