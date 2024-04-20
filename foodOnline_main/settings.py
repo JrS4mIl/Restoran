@@ -75,7 +75,8 @@ TEMPLATES = [
                 'accounts.context_processors.get_google_api',
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amounts',
-                'accounts.context_processors.get_user_profile'
+                'accounts.context_processors.get_user_profile',
+                'accounts.context_processors.get_paypal_client_id'
             ],
         },
     },
@@ -155,7 +156,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <djangoonlinefood09@gmail.com>'
 
-GOOGLE_API_KEY = 'AIzaSyBbE_j9uIMbDasR-JtmXdlV7Lc-VaBchMQ'
+GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
 # os.environ['PATH'] = os.path.join(BASE_DIR, 'env\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
 # os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'env\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
@@ -163,3 +164,5 @@ GOOGLE_API_KEY = 'AIzaSyBbE_j9uIMbDasR-JtmXdlV7Lc-VaBchMQ'
 
 GDAL_LIBRARY_PATH = r"C:\Users\samil\OneDrive\Masaüstü\Coding\DJANGO\FoodOnline\foodOnline_main\env\Lib\site-packages\osgeo\gdal304.dll"
 GEOS_LIBRARY_PATH = r"C:\Users\samil\OneDrive\Masaüstü\Coding\DJANGO\FoodOnline\foodOnline_main\env\Lib\site-packages\osgeo\geos_c.dll"
+PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'

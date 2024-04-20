@@ -1,9 +1,9 @@
 
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from marketplace.models import  Cart
 from marketplace.context_processors import get_cart_amounts
 from .forms import OrderForm
-from .models import Order
+from .models import Order,Payment
 import simplejson as json
 from .utils import generate_order_number
 # Create your views here.
@@ -37,8 +37,36 @@ def place_order(request):
             order.save()
             order.order_number = generate_order_number(order.id)
             order.save()
-            return redirect('place_order')
+            context={
+                'order':order,
+                'cart_items':cart_items
+
+            }
+            return render(request,'orders/place_order.html',context)
         else:
             print(form.errors)
 
     return render(request,'orders/place_order.html')
+
+def payments(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method=='POST':
+        order_number=request.POST.get('order_number')
+        transaction_id=request.POST.get('transaction_id')
+        payment_method=request.POST.get('payment_method')
+        status=request.POST.get('status')
+        order=Order.objects.get(user=request.user,order_number=order_number)
+        payment=Payment(
+            user=request.user,
+            transaction_id=transaction_id,
+            payment_method=payment_method,
+            amount=order.total,
+            status=status
+        )
+        payment.save()
+        ##Update order MOdel
+        order.payment=payment
+        order.is_ordered=True
+        order.save()
+
+
+    return HttpResponse('Payments view')
