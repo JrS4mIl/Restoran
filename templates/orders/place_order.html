@@ -116,6 +116,7 @@
     var url = "{% url 'payments' %}"
     var order_number = "{{ order.order_number }}"
     const csrftoken = getCookie('csrftoken');
+    var order_complete="{% url 'order_complete' %}"
 
     console.log('csrftoken===>', csrftoken)
     // Render the PayPal button into #paypal-button-container
