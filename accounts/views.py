@@ -12,6 +12,7 @@ from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
 from django.template.defaultfilters import slugify
 from orders.models import Order
+import datetime
 # Create your views here.
 
 #Kullanici erisimi kisitla
@@ -167,10 +168,22 @@ def custDashboard(request):
 def vendorDashboard(request):
     vendor=Vendor.objects.get(user=request.user)
     orders=Order.objects.filter(vendors__in=[vendor.id],is_ordered=True).order_by('-created_at')
+
     orders_count=orders.count()
+    current_month=datetime.datetime.now().month
+    current_month_orders=orders.filter(vendors__in=[vendor.id],created_at__month=current_month)
+    current_month_revenue=0
+    for i in current_month_orders:
+        current_month_revenue+=i.get_total_by_vendor()['grand_total']
+
+    total_revenue=0
+    for i in orders:
+        total_revenue+=i.get_total_by_vendor()['grand_total']
     context={
         'orders':orders,
-        'orders_count':orders_count
+        'orders_count':orders_count,
+        'total_revenue':total_revenue,
+        'current_month_revenue':current_month_revenue
     }
     return render(request, 'accounts/vendorDashboard.html',context)
 
